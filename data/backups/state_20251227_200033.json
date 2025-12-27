@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "app": {
+    "timezone": "Asia/Jerusalem",
+    "date_format": "DD/MM/YY",
+    "rtl": true,
+    "theme": "system"
+  },
+  "ui_state": {
+    "project_order": [
+      "proj_1"
+    ],
+    "locked_projects": {},
+    "undo": {
+      "stack": [],
+      "redo_stack": []
+    }
+  },
+  "projects": [
+    {
+      "id": "proj_1",
+      "title": "Test Project",
+      "short_description": "Testing",
+      "detailed_description": "",
+      "notebook": "",
+      "tags": [],
+      "color": "auto",
+      "time_range": null,
+      "milestones": []
+    }
+  ],
+  "backups": []
+}
