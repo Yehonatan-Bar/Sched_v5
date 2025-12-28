@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "app": {
+    "timezone": "Asia/Jerusalem",
+    "date_format": "DD/MM/YY",
+    "rtl": true,
+    "theme": "system"
+  },
+  "ui_state": {
+    "project_order": [
+      "proj_1766896900379_7rdnwor00",
+      "proj_2"
+    ],
+    "locked_projects": {},
+    "undo": {
+      "stack": [],
+      "redo_stack": []
+    }
+  },
+  "projects": [
+    {
+      "id": "proj_2",
+      "title": "איגום יתרות",
+      "short_description": "ניהול מאזנים",
+      "detailed_description": "",
+      "notebook": "",
+      "tags": [],
+      "color": "auto",
+      "time_range": {
+        "start_iso": "2025-12-15T00:00:00+02:00",
+        "end_iso": "2026-02-28T23:59:59+02:00",
+        "is_user_defined": true
+      },
+      "milestones": [
+        {
+          "id": "task_a",
+          "title": "האזנה לתמלול וסיכום משימות",
+          "details": "",
+          "status": {
+            "type": "in_progress",
+            "waiting_for": null
+          },
+          "priority": 1,
+          "tags": [],
+          "color": "auto",
+          "schedule": {
+            "mode": "range",
+            "start_iso": "2025-12-28T09:00:00.000Z",
+            "end_iso": "2025-12-28T13:15:00.000Z"
+          },
+          "people": [],
+          "notes": "",
+          "subtasks": []
+        },
+        {
+          "id": "task_b",
+          "title": "יישום",
+          "details": "ד",
+          "status": {
+            "type": "not_started",
+            "waiting_for": null
+          },
+          "priority": 1,
+          "tags": [],
+          "color": "auto",
+          "schedule": {
+            "mode": "range",
+            "start_iso": "2026-01-26T13:00:00.000Z",
+            "end_iso": "2026-01-28T10:00:00.000Z"
+          },
+          "people": [],
+          "notes": "",
+          "subtasks": [
+            {
+              "id": "task_1766897846320_v4bf2d7r1",
+              "title": "תת משימה",
+              "details": "",
+              "status": {
+                "type": "done",
+                "waiting_for": null
+              },
+              "priority": 1,
+              "tags": [],
+              "color": "auto",
+              "schedule": null,
+              "people": [],
+              "notes": "",
+              "subtasks": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proj_1766896900379_7rdnwor00",
+      "title": " דוח בקרה",
+      "short_description": "יצירת html מדו\"ח בקרה",
+      "detailed_description": "",
+      "notebook": "",
+      "tags": [],
+      "color": "auto",
+      "time_range": {
+        "start_iso": "2025-12-28T04:41:40.379Z",
+        "end_iso": "2026-01-28T04:41:40.379Z",
+        "is_user_defined": false
+      },
+      "milestones": [
+        {
+          "id": "task_1766897789051_tclrcgtza",
+          "title": "פיצוח מנפיסט נכון",
+          "details": "",
+          "status": {
+            "type": "in_progress",
+            "waiting_for": null
+          },
+          "priority": 1,
+          "tags": [],
+          "color": "auto",
+          "schedule": {
+            "mode": "range",
+            "start_iso": "2025-12-29T07:00:00.000Z",
+            "end_iso": "2025-12-29T21:30:00.000Z"
+          },
+          "people": [
+            "דודי"
+          ],
+          "notes": "",
+          "subtasks": [
+            {
+              "id": "task_1766936371348_gk7vmmz4l",
+              "title": "לחשוב על גישות אחרות",
+              "details": "",
+              "status": {
+                "type": "not_started",
+                "waiting_for": null
+              },
+              "priority": 1,
+              "tags": [],
+              "color": "auto",
+              "schedule": null,
+              "people": [],
+              "notes": "",
+              "subtasks": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "backups": [
+    {
+      "id": "bkp_20251228_064307",
+      "created_at_iso": "2025-12-28T06:43:07.072243",
+      "reason": "manual_save",
+      "file_path": "data\\backups\\state_20251228_064307.json"
+    },
+    {
+      "id": "bkp_20251228_065740",
+      "created_at_iso": "2025-12-28T06:57:40.843648",
+      "reason": "manual_save",
+      "file_path": "data\\backups\\state_20251228_065740.json"
+    },
+    {
+      "id": "bkp_20251228_072042",
+      "created_at_iso": "2025-12-28T07:20:42.520458",
+      "reason": "manual_save",
+      "file_path": "data\\backups\\state_20251228_072042.json"
+    },
+    {
+      "id": "bkp_20251228_073418",
+      "created_at_iso": "2025-12-28T07:34:18.637851",
+      "reason": "manual_save",
+      "file_path": "data\\backups\\state_20251228_073418.json"
+    },
+    {
+      "id": "bkp_20251228_175351",
+      "created_at_iso": "2025-12-28T17:53:51.908509",
+      "reason": "manual_save",
+      "file_path": "data\\backups\\state_20251228_175351.json"
+    }
+  ]
+}

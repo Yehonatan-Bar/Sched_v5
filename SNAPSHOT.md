@@ -66,6 +66,10 @@ Sched_v5/
   - "Now" indicator (dashed red line)
   - Hint markers on edges for off-screen tasks
   - Point tasks displayed as circles
+  - Overdue task handling: tasks past due date visually "drag along" to current time
+  - Checkbox on overdue tasks to mark as done (returns to original position, greyed out)
+  - Ghost indicator shows original position for overdue tasks
+  - Done tasks display with grey color and strikethrough label
 - **Level 2 (Sub-timeline)**:
   - Click on task bar to expand sub-timeline below
   - Other tasks dim to background (30% opacity)
