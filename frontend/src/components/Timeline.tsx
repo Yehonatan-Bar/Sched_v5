@@ -8,12 +8,12 @@ const ZOOM_LEVELS: ZoomLevel[] = ['months', 'weeks', 'days', 'hours', 'minutes']
 
 // Pixels per unit at each zoom level
 // Configured so each time unit has enough pixels for consecutive tick display
-const ZOOM_CONFIGS: Record<ZoomLevel, { msPerPixel: number; tickInterval: number; format: string; minTickSpacing: number }> = {
-  months: { msPerPixel: 86400000 * 7, tickInterval: 86400000 * 30, format: 'month', minTickSpacing: 50 },    // ~11 months visible, ~55px/month
-  weeks: { msPerPixel: 86400000, tickInterval: 86400000 * 7, format: 'week', minTickSpacing: 45 },           // ~7 weeks visible, ~86px/week
-  days: { msPerPixel: 86400000 / 40, tickInterval: 86400000, format: 'day', minTickSpacing: 35 },            // ~15 days visible, 40px/day
-  hours: { msPerPixel: 3600000 / 40, tickInterval: 3600000, format: 'hour', minTickSpacing: 35 },            // ~15 hours visible, 40px/hour
-  minutes: { msPerPixel: 60000 / 35, tickInterval: 60000, format: 'minute', minTickSpacing: 30 },            // ~17 minutes visible, 35px/minute
+const ZOOM_CONFIGS: Record<ZoomLevel, { msPerPixel: number; tickInterval: number; format: string; minTickSpacing: number; fontSize: number }> = {
+  months: { msPerPixel: 86400000 * 7, tickInterval: 86400000 * 30, format: 'month', minTickSpacing: 50, fontSize: 11 },    // ~11 months visible, ~55px/month
+  weeks: { msPerPixel: 86400000, tickInterval: 86400000 * 7, format: 'week', minTickSpacing: 45, fontSize: 11 },           // ~7 weeks visible, ~86px/week
+  days: { msPerPixel: 86400000 / 40, tickInterval: 86400000, format: 'day', minTickSpacing: 35, fontSize: 9 },             // ~15 days visible, 40px/day
+  hours: { msPerPixel: 3600000 / 40, tickInterval: 3600000, format: 'hour', minTickSpacing: 35, fontSize: 11 },            // ~15 hours visible, 40px/hour
+  minutes: { msPerPixel: 60000 / 35, tickInterval: 60000, format: 'minute', minTickSpacing: 30, fontSize: 11 },            // ~17 minutes visible, 35px/minute
 };
 
 // Touch gesture configuration
@@ -56,6 +56,10 @@ interface TouchState {
 }
 
 interface TaskBar {
+  isOverdue: boolean;
+  isDone: boolean;
+  originalStartX?: number;
+  originalEndX?: number;
   task: Task;
   startX: number;
   endX: number;
@@ -106,6 +110,65 @@ function assignRows(taskBars: Omit<TaskBar, 'row'>[]): TaskBar[] {
   });
 }
 
+// Check if a task is overdue (past due and not done)
+function isTaskOverdue(task: Task): boolean {
+  // Done tasks are never considered overdue
+  if (task.status.type === 'done') return false;
+
+  // Must have a schedule
+  if (!task.schedule) return false;
+
+  const now = Date.now();
+
+  if (task.schedule.mode === 'range') {
+    // Range task: overdue when end_iso < now
+    return new Date(task.schedule.end_iso).getTime() < now;
+  } else {
+    // Point task: overdue when point_iso < now
+    return new Date(task.schedule.point_iso).getTime() < now;
+  }
+}
+
+// Calculate adjusted position for overdue tasks (displayed at "now")
+function getOverdueAdjustedPosition(
+  task: Task,
+  timelineStart: number,
+  msPerPixel: number,
+  timelineWidth: number,
+  isOverdue: boolean
+): { startX: number; endX: number; isPoint: boolean; originalStartX?: number; originalEndX?: number } | null {
+  const originalPos = getTaskPosition(task, timelineStart, msPerPixel, timelineWidth);
+  if (!originalPos) return null;
+
+  // If not overdue, return original position
+  if (!isOverdue) return originalPos;
+
+  // Calculate "now" position for visual display
+  const now = Date.now();
+  const nowX = timelineWidth - (now - timelineStart) / msPerPixel;
+
+  if (task.schedule!.mode === 'range') {
+    // For range tasks: shift entire bar so it ends at "now"
+    const barWidth = originalPos.endX - originalPos.startX;
+    return {
+      startX: nowX - barWidth,
+      endX: nowX,
+      isPoint: false,
+      originalStartX: originalPos.startX,
+      originalEndX: originalPos.endX,
+    };
+  } else {
+    // For point tasks: display at "now"
+    return {
+      startX: nowX - 4,
+      endX: nowX + 4,
+      isPoint: true,
+      originalStartX: originalPos.startX,
+      originalEndX: originalPos.endX,
+    };
+  }
+}
+
 // Month names for display
 const MONTH_NAMES = ['ינו', 'פבר', 'מרץ', 'אפר', 'מאי', 'יונ', 'יול', 'אוג', 'ספט', 'אוק', 'נוב', 'דצמ'];
 const DAY_NAMES = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'];
@@ -120,8 +183,8 @@ function formatDate(date: Date, format: string): string {
       // Show day/month: "15/1"
       return `${date.getDate()}/${date.getMonth() + 1}`;
     case 'day':
-      // Show day name then date for RTL: "א' 28" (Sunday 28)
-      return `${DAY_NAMES[date.getDay()]}׳ ${date.getDate()}`;
+      // Show day name then date/month for RTL: "א' 4/12" (Sunday 4th of December)
+      return `${DAY_NAMES[date.getDay()]}׳ ${date.getDate()}/${date.getMonth() + 1}`;
     case 'hour':
       // Show just hour: "14:00"
       return `${date.getHours()}:00`;
@@ -494,7 +557,9 @@ export default function Timeline({
       if (!task.schedule) return;
 
       const color = task.color === 'auto' ? TASK_COLORS[index % TASK_COLORS.length] : task.color;
-      const pos = getTaskPosition(task, visibleStart, zoomConfig.msPerPixel, width);
+      const taskIsOverdue = isTaskOverdue(task);
+      const taskIsDone = task.status.type === 'done';
+      const pos = getOverdueAdjustedPosition(task, visibleStart, zoomConfig.msPerPixel, width, taskIsOverdue);
 
       if (!pos) return;
 
@@ -505,6 +570,10 @@ export default function Timeline({
           endX: Math.min(width, pos.endX),
           color,
           isPoint: pos.isPoint,
+          isOverdue: taskIsOverdue,
+          isDone: taskIsDone,
+          originalStartX: pos.originalStartX,
+          originalEndX: pos.originalEndX,
         });
       } else if (pos.endX < 0) {
         leftHintTasks.push({ task, color });
@@ -539,21 +608,29 @@ export default function Timeline({
   const subTimelineOffset = expandedTaskId ? SUB_TIMELINE_HEIGHT : 0;
   const totalHeight = TASK_AREA_START + taskAreaHeight + LABEL_AREA_HEIGHT + subTimelineOffset;
 
-  // Handle wheel for zoom
-  const handleWheel = useCallback(
-    (e: React.WheelEvent) => {
+  // Handle wheel for zoom - uses native event listener for proper preventDefault
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
       if (!isLocked || !isHoveringTimeline) return;
 
+      // Prevent page scroll when zooming timeline
       e.preventDefault();
+
       const currentIndex = ZOOM_LEVELS.indexOf(zoomLevel);
       if (e.deltaY > 0 && currentIndex > 0) {
         setZoomLevel(ZOOM_LEVELS[currentIndex - 1]);
       } else if (e.deltaY < 0 && currentIndex < ZOOM_LEVELS.length - 1) {
         setZoomLevel(ZOOM_LEVELS[currentIndex + 1]);
       }
-    },
-    [isLocked, isHoveringTimeline, zoomLevel]
-  );
+    };
+
+    // Use passive: false to allow preventDefault
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => container.removeEventListener('wheel', handleWheel);
+  }, [isLocked, isHoveringTimeline, zoomLevel, setZoomLevel]);
 
   // Handle timeline panning - start
   const handlePanStart = useCallback(
@@ -1165,7 +1242,6 @@ export default function Timeline({
       style={containerStyle}
       onMouseEnter={() => setIsHoveringTimeline(true)}
       onMouseLeave={() => setIsHoveringTimeline(false)}
-      onWheel={handleWheel}
       role="application"
       aria-label="ציר זמן. השתמש בחיצים לניווט בין משימות, Shift+חץ להזזת המשימה הנבחרת."
     >
@@ -1257,7 +1333,7 @@ export default function Timeline({
               x={tick.x}
               y={AXIS_HEIGHT - 10}
               textAnchor="middle"
-              fontSize="11"
+              fontSize={zoomConfig.fontSize}
               fontWeight="500"
               fill="var(--text-secondary)"
             >
@@ -1322,13 +1398,57 @@ export default function Timeline({
                   style={{ pointerEvents: 'none' }}
                 />
               )}
+              {/* Checkbox for overdue tasks - click to mark as done */}
+              {bar.isOverdue && isLocked && onTaskUpdate && (
+                <g
+                  style={{ cursor: 'pointer' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTaskUpdate(bar.task.id, { status: { type: 'done', waiting_for: null } });
+                  }}
+                >
+                  <circle
+                    cx={bar.isPoint ? barCenterX - 18 : bar.endX - 16}
+                    cy={y + BAR_HEIGHT / 2}
+                    r={10}
+                    fill="white"
+                    stroke="var(--accent-danger)"
+                    strokeWidth={2}
+                  />
+                  <path
+                    d={bar.isPoint
+                      ? `M ${barCenterX - 22} ${y + BAR_HEIGHT / 2} l 4 4 l 8 -8`
+                      : `M ${bar.endX - 20} ${y + BAR_HEIGHT / 2} l 4 4 l 8 -8`
+                    }
+                    stroke="var(--accent-danger)"
+                    strokeWidth={2}
+                    fill="none"
+                  />
+                </g>
+              )}
+              {/* Ghost indicator showing original position for overdue tasks */}
+              {bar.isOverdue && bar.originalStartX  !==  undefined && bar.originalEndX  !==  undefined && (
+                <rect
+                  x={bar.originalStartX}
+                  y={y}
+                  width={bar.originalEndX - bar.originalStartX}
+                  height={BAR_HEIGHT}
+                  rx={4}
+                  fill="none"
+                  stroke={bar.color}
+                  strokeDasharray="4,4"
+                  opacity={0.3}
+                  style={{ pointerEvents: 'none' }}
+                />
+              )}
               {/* Task bar */}
               {bar.isPoint ? (
                 <circle
                   cx={barCenterX}
                   cy={y + BAR_HEIGHT / 2}
                   r={isBeingDragged ? 10 : 8}
-                  fill={bar.color}
+                  fill={bar.isDone ? 'var(--text-muted)' : bar.color}
+                  opacity={bar.isDone ? 0.5 : 1}
                   style={{
                     cursor: isLocked ? 'move' : hasSubtasks ? 'pointer' : 'default',
                     transition: 'r 0.15s ease',
@@ -1345,7 +1465,8 @@ export default function Timeline({
                     width={barWidth}
                     height={BAR_HEIGHT}
                     rx={4}
-                    fill={bar.color}
+                    fill={bar.isDone ? 'var(--text-muted)' : bar.color}
+                    opacity={bar.isDone ? 0.5 : 1}
                     style={{
                       cursor: isLocked ? 'move' : hasSubtasks ? 'pointer' : 'default',
                       transition: 'transform 0.15s ease',
@@ -1532,7 +1653,8 @@ export default function Timeline({
                 y={labelY}
                 textAnchor="middle"
                 fontSize="11"
-                fill={bar.color}
+                fill={bar.isDone ? 'var(--text-muted)' : bar.color}
+                style={{ textDecoration: bar.isDone ? 'line-through' : 'none' }}
                 fontWeight={500}
               >
                 {bar.task.title || 'ללא שם'}

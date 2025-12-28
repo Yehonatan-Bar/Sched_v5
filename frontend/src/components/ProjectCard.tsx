@@ -374,6 +374,12 @@ export default function ProjectCard({
 
   const actionsStyle: CSSProperties = {
     display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--spacing-sm)',
+  };
+
+  const actionsRowStyle: CSSProperties = {
+    display: 'flex',
     gap: 'var(--spacing-sm)',
   };
 
@@ -503,125 +509,125 @@ export default function ProjectCard({
           />
         </div>
         <div style={actionsStyle}>
-          <button
-            style={iconButtonStyle}
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowDescriptionModal(true);
-            }}
-            title="הצג תיאור מפורט"
-          >
-            <DescriptionIcon />
-          </button>
-          <button
-            style={iconButtonStyle}
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowNotebookModal(true);
-            }}
-            title="פתח פנקס טיוטות"
-          >
-            <NotebookIcon />
-          </button>
-          <Link
-            to={`/project/${project.id}`}
-            style={iconButtonStyle}
-            title="פתח פרויקט"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ArrowIcon />
-          </Link>
-          <button
-            style={deleteButtonStyle}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDelete();
-            }}
-            title="מחק פרויקט"
-          >
-            <TrashIcon />
-          </button>
+          <div style={actionsRowStyle}>
+            <button
+              style={deleteButtonStyle}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
+              title="מחק פרויקט"
+            >
+              <TrashIcon />
+            </button>
+            <Link
+              to={`/project/${project.id}`}
+              style={iconButtonStyle}
+              title="פתח פרויקט"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ArrowIcon />
+            </Link>
+            <button
+              style={iconButtonStyle}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowNotebookModal(true);
+              }}
+              title="פתח פנקס טיוטות"
+            >
+              <NotebookIcon />
+            </button>
+            <button
+              style={iconButtonStyle}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowDescriptionModal(true);
+              }}
+              title="הצג תיאור מפורט"
+            >
+              <DescriptionIcon />
+            </button>
+          </div>
+          {/* Zoom controls - positioned under action buttons */}
+          {project.time_range && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--spacing-sm)',
+            }}>
+              <button
+                onClick={handleZoomIn}
+                disabled={ZOOM_LEVELS.indexOf(zoomLevel) === ZOOM_LEVELS.length - 1}
+                title="התקרב"
+                aria-label="התקרב"
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px solid var(--border-medium)',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--bg-secondary)',
+                  color: 'var(--text-primary)',
+                  cursor: ZOOM_LEVELS.indexOf(zoomLevel) === ZOOM_LEVELS.length - 1 ? 'not-allowed' : 'pointer',
+                  opacity: ZOOM_LEVELS.indexOf(zoomLevel) === ZOOM_LEVELS.length - 1 ? 0.4 : 1,
+                  fontSize: 'var(--font-size-lg)',
+                  fontWeight: 600,
+                }}
+              >
+                +
+              </button>
+              <span style={{
+                minWidth: '50px',
+                textAlign: 'center',
+                fontSize: 'var(--font-size-sm)',
+                color: 'var(--text-secondary)',
+              }}>
+                {zoomLevel}
+              </span>
+              <button
+                onClick={handleZoomOut}
+                disabled={ZOOM_LEVELS.indexOf(zoomLevel) === 0}
+                title="התרחק"
+                aria-label="התרחק"
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px solid var(--border-medium)',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--bg-secondary)',
+                  color: 'var(--text-primary)',
+                  cursor: ZOOM_LEVELS.indexOf(zoomLevel) === 0 ? 'not-allowed' : 'pointer',
+                  opacity: ZOOM_LEVELS.indexOf(zoomLevel) === 0 ? 0.4 : 1,
+                  fontSize: 'var(--font-size-lg)',
+                  fontWeight: 600,
+                }}
+              >
+                −
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Timeline - only show if project has time_range */}
       {project.time_range && (
-        <>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--spacing-sm)',
-            padding: 'var(--spacing-sm) var(--spacing-md)',
-            marginTop: 'var(--spacing-sm)',
-          }}>
-            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)' }}>זום:</span>
-            <button
-              onClick={handleZoomOut}
-              disabled={ZOOM_LEVELS.indexOf(zoomLevel) === 0}
-              title="התרחק"
-              aria-label="התרחק"
-              style={{
-                width: '28px',
-                height: '28px',
-                padding: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid var(--border-medium)',
-                borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                cursor: ZOOM_LEVELS.indexOf(zoomLevel) === 0 ? 'not-allowed' : 'pointer',
-                opacity: ZOOM_LEVELS.indexOf(zoomLevel) === 0 ? 0.4 : 1,
-                fontSize: 'var(--font-size-lg)',
-                fontWeight: 600,
-              }}
-            >
-              −
-            </button>
-            <span style={{
-              minWidth: '60px',
-              textAlign: 'center',
-              fontSize: 'var(--font-size-sm)',
-              color: 'var(--text-secondary)',
-            }}>
-              {zoomLevel}
-            </span>
-            <button
-              onClick={handleZoomIn}
-              disabled={ZOOM_LEVELS.indexOf(zoomLevel) === ZOOM_LEVELS.length - 1}
-              title="התקרב"
-              aria-label="התקרב"
-              style={{
-                width: '28px',
-                height: '28px',
-                padding: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid var(--border-medium)',
-                borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                cursor: ZOOM_LEVELS.indexOf(zoomLevel) === ZOOM_LEVELS.length - 1 ? 'not-allowed' : 'pointer',
-                opacity: ZOOM_LEVELS.indexOf(zoomLevel) === ZOOM_LEVELS.length - 1 ? 0.4 : 1,
-                fontSize: 'var(--font-size-lg)',
-                fontWeight: 600,
-              }}
-            >
-              +
-            </button>
-          </div>
-          <Timeline
-            timeRange={project.time_range}
-            tasks={project.milestones}
-            isLocked={isLocked}
-            onTaskScheduleUpdate={handleTaskScheduleUpdate}
-            onTaskUpdate={handleTaskUpdate}
-            zoomLevel={zoomLevel}
-            onZoomChange={setZoomLevel}
-          />
-        </>
+        <Timeline
+          timeRange={project.time_range}
+          tasks={project.milestones}
+          isLocked={isLocked}
+          onTaskScheduleUpdate={handleTaskScheduleUpdate}
+          onTaskUpdate={handleTaskUpdate}
+          zoomLevel={zoomLevel}
+          onZoomChange={setZoomLevel}
+        />
       )}
 
       <div style={footerStyle}>
