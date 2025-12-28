@@ -58,6 +58,7 @@ Sched_v5/
   - RTL timeline (past on right, future on left)
   - 5 zoom levels: months → weeks → days → hours → minutes
   - Zoom via + / − buttons (above timeline) or scroll wheel (when locked + hovering)
+  - Task navigation arrows: left/right buttons to jump between tasks, shows current task index and name
   - Task bars with automatic row assignment for overlaps
   - Distinct colors per task with connecting lines to labels
   - Drag to move tasks, resize handles for range tasks

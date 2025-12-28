@@ -998,6 +998,42 @@ export default function Timeline({
     transition: 'opacity var(--transition-fast)',
   };
 
+  const navButtonStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '32px',
+    height: '32px',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid var(--border-medium)',
+    backgroundColor: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)',
+  };
+
+  const navButtonDisabledStyle: React.CSSProperties = {
+    ...navButtonStyle,
+    opacity: 0.4,
+    cursor: 'not-allowed',
+  };
+
+  const navContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    marginBottom: 'var(--spacing-xs)',
+  };
+
+  const navInfoStyle: React.CSSProperties = {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--text-secondary)',
+    minWidth: '120px',
+    textAlign: 'center',
+  };
+
   // Render sub-timeline for expanded task (Level 2)
   const renderSubTimeline = () => {
     if (!expandedTask || !expandedTask.subtasks || expandedTask.subtasks.length === 0) return null;
@@ -1136,6 +1172,46 @@ export default function Timeline({
       <span style={keyboardHintStyle} aria-live="polite">
         Shift + חץ להזזת המשימה
       </span>
+
+      {/* Task Navigation Bar */}
+      {sortedScheduledTasks.length > 0 && (
+        <div style={navContainerStyle}>
+          {/* Right arrow - goes to previous/past task (RTL) */}
+          <button
+            style={currentNavIndex <= 0 ? navButtonDisabledStyle : navButtonStyle}
+            onClick={navigateToPrevTask}
+            disabled={currentNavIndex <= 0}
+            title="משימה קודמת"
+            aria-label="משימה קודמת"
+          >
+            <ChevronRightIcon size={20} />
+          </button>
+
+          {/* Current task info */}
+          <span style={navInfoStyle}>
+            {currentNavIndex >= 0 && sortedScheduledTasks[currentNavIndex] ? (
+              <>
+                <strong>{currentNavIndex + 1}</strong> / {sortedScheduledTasks.length}
+                {' · '}
+                {sortedScheduledTasks[currentNavIndex].task.title || 'ללא שם'}
+              </>
+            ) : (
+              `${sortedScheduledTasks.length} משימות`
+            )}
+          </span>
+
+          {/* Left arrow - goes to next/future task (RTL) */}
+          <button
+            style={currentNavIndex >= sortedScheduledTasks.length - 1 ? navButtonDisabledStyle : navButtonStyle}
+            onClick={navigateToNextTask}
+            disabled={currentNavIndex >= sortedScheduledTasks.length - 1}
+            title="משימה הבאה"
+            aria-label="משימה הבאה"
+          >
+            <ChevronLeftIcon size={20} />
+          </button>
+        </div>
+      )}
 
       <svg
         ref={svgRef}
@@ -1640,4 +1716,63 @@ export default function Timeline({
                   borderRadius: 'var(--radius-md)',
                   border: '1px solid var(--border-medium)',
                   backgroundColor: 'var(--bg-secondary)',
-                  color: 'var(--text
+                  color: 'var(--text-primary)',
+                  fontSize: 'var(--font-size-sm)',
+                }}
+              />
+            </div>
+
+            {/* Notes */}
+            <div>
+              <label style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, marginBottom: 'var(--spacing-xs)', display: 'block' }}>
+                הערות
+              </label>
+              <textarea
+                value={localNotes}
+                onChange={handleNotesChange}
+                onBlur={handleNotesBlur}
+                placeholder="הוסף הערות..."
+                style={{
+                  width: '100%',
+                  minHeight: '80px',
+                  padding: 'var(--spacing-sm)',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--border-medium)',
+                  backgroundColor: 'var(--bg-secondary)',
+                  color: 'var(--text-primary)',
+                  fontSize: 'var(--font-size-sm)',
+                  resize: 'vertical',
+                }}
+              />
+            </div>
+
+            {/* Status display */}
+            <div style={{
+              padding: 'var(--spacing-sm)',
+              backgroundColor: 'var(--bg-tertiary)',
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
+            }}>
+              <strong>סטטוס:</strong> {detailsModalTask.status.type.replace('_', ' ')}
+              {detailsModalTask.status.type === 'waiting_for' && detailsModalTask.status.waiting_for && (
+                <span style={{ color: 'var(--status-waiting)' }}> ({detailsModalTask.status.waiting_for})</span>
+              )}
+            </div>
+
+            {/* Subtasks count */}
+            {detailsModalTask.subtasks && detailsModalTask.subtasks.length > 0 && (
+              <div style={{
+                padding: 'var(--spacing-sm)',
+                backgroundColor: 'var(--bg-tertiary)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: 'var(--font-size-sm)',
+              }}>
+                <strong>תתי-משימות:</strong> {detailsModalTask.subtasks.length} תת-משימות
+              </div>
+            )}
+          </div>
+        )}
+      </Modal>
+    </div>
+  );
+}
