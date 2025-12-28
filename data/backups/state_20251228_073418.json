@@ -355,8 +355,8 @@
           "color": "auto",
           "schedule": {
             "mode": "range",
-            "start_iso": "2025-12-28T07:45:00.000Z",
-            "end_iso": "2025-12-28T10:30:00.000Z"
+            "start_iso": "2025-12-20T09:00:00+02:00",
+            "end_iso": "2026-01-05T18:00:00+02:00"
           },
           "people": [
             "Research Team"
@@ -366,10 +366,10 @@
         },
         {
           "id": "task_b",
-          "title": "יישום",
+          "title": "Implementation",
           "details": "ד",
           "status": {
-            "type": "not_started",
+            "type": "in_progress",
             "waiting_for": null
           },
           "priority": 1,
@@ -501,12 +501,6 @@
       "created_at_iso": "2025-12-28T07:20:42.520458",
       "reason": "manual_save",
       "file_path": "data\\backups\\state_20251228_072042.json"
-    },
-    {
-      "id": "bkp_20251228_073418",
-      "created_at_iso": "2025-12-28T07:34:18.637851",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_073418.json"
     }
   ]
 }

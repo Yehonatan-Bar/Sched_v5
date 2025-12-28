@@ -1,7 +1,10 @@
-import { ReactNode, useCallback } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppStore, useIsDirty, useIsSaving } from '../store/useAppStore';
 import ThemeToggle from './ThemeToggle';
+
+// Conflict detection polling interval (check every 30 seconds)
+const CONFLICT_CHECK_INTERVAL = 30000;
 
 const styles = {
   container: {
@@ -86,6 +89,38 @@ const styles = {
     flex: 1,
     padding: 'var(--spacing-lg)',
   } as const,
+  conflictBanner: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 'var(--spacing-sm) var(--spacing-lg)',
+    backgroundColor: 'var(--accent-warning)',
+    color: 'var(--text-primary)',
+    fontSize: 'var(--font-size-sm)',
+    gap: 'var(--spacing-md)',
+  } as const,
+  conflictButton: {
+    padding: 'var(--spacing-xs) var(--spacing-sm)',
+    borderRadius: 'var(--radius-sm)',
+    backgroundColor: 'var(--bg-primary)',
+    color: 'var(--text-primary)',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 500,
+  } as const,
+  dirtyBadge: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-xs)',
+    padding: '2px 8px',
+    borderRadius: 'var(--radius-full)',
+    backgroundColor: 'var(--accent-warning)',
+    color: 'var(--text-primary)',
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: 500,
+    animation: 'pulse 2s ease-in-out infinite',
+  } as const,
 };
 
 function UndoIcon() {
@@ -113,12 +148,66 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const isDirty = useIsDirty();
   const isSaving = useIsSaving();
-  const { save, undo, redo, canUndo, canRedo } = useAppStore();
+  const { save, undo, redo, canUndo, canRedo, savedState, loadState } = useAppStore();
+
+  // Conflict detection state
+  const [hasConflict, setHasConflict] = useState(false);
+  const [serverSchemaVersion, setServerSchemaVersion] = useState<number | null>(null);
+
+  // Check for conflicts (another tab saved changes)
+  useEffect(() => {
+    if (!savedState) return;
+
+    const checkForConflicts = async () => {
+      try {
+        const response = await fetch('/api/state');
+        if (response.ok) {
+          const serverState = await response.json();
+          // Compare schema_version to detect external changes
+          if (serverSchemaVersion !== null && serverState.schema_version !== serverSchemaVersion) {
+            setHasConflict(true);
+          }
+          setServerSchemaVersion(serverState.schema_version);
+        }
+      } catch (error) {
+        // Network error - don't show conflict
+        console.error('Failed to check for conflicts:', error);
+      }
+    };
+
+    // Initial check
+    checkForConflicts();
+
+    // Periodic check
+    const interval = setInterval(checkForConflicts, CONFLICT_CHECK_INTERVAL);
+    return () => clearInterval(interval);
+  }, [savedState, serverSchemaVersion]);
+
+  // Handle reload from server
+  const handleReloadFromServer = useCallback(async () => {
+    try {
+      const response = await fetch('/api/state');
+      if (response.ok) {
+        const serverState = await response.json();
+        loadState(serverState);
+        setHasConflict(false);
+        setServerSchemaVersion(serverState.schema_version);
+      }
+    } catch (error) {
+      console.error('Failed to reload from server:', error);
+    }
+  }, [loadState]);
+
+  // Dismiss conflict warning
+  const handleDismissConflict = useCallback(() => {
+    setHasConflict(false);
+  }, []);
 
   const handleSave = useCallback(async () => {
     if (!isDirty || isSaving) return;
     try {
       await save();
+      setHasConflict(false); // Clear conflict on successful save
     } catch (error) {
       console.error('Failed to save:', error);
       // In a real app, show a toast notification
@@ -168,12 +257,41 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div style={styles.container}>
+      {/* Conflict warning banner */}
+      {hasConflict && (
+        <div style={styles.conflictBanner} role="alert">
+          <span>
+            בוצעו שינויים בלשונית אחרת. השינויים שלך עלולים לדרוס אותם.
+          </span>
+          <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
+            <button
+              style={styles.conflictButton}
+              onClick={handleReloadFromServer}
+              title="בטל את השינויים שלך וטען את הגרסה האחרונה"
+            >
+              טען מחדש
+            </button>
+            <button
+              style={styles.conflictButton}
+              onClick={handleDismissConflict}
+              title="שמור את השינויים שלך (ידרסו בשמירה)"
+            >
+              התעלם
+            </button>
+          </div>
+        </div>
+      )}
       <header style={styles.header}>
         <div style={styles.logo}>
           <Link to="/" style={styles.logoText}>
             Sched
           </Link>
-          {isDirty && <div style={styles.dirtyIndicator} title="Unsaved changes" />}
+          {isDirty && (
+            <div style={styles.dirtyBadge} title="יש שינויים שלא נשמרו">
+              <div style={styles.dirtyIndicator} />
+              <span>לא נשמר</span>
+            </div>
+          )}
         </div>
 
         <div style={styles.actions}>
@@ -185,8 +303,8 @@ export default function Layout({ children }: LayoutProps) {
               }}
               onClick={handleUndo}
               disabled={isUndoDisabled}
-              aria-label="Undo (Ctrl+Z)"
-              title="Undo (Ctrl+Z)"
+              aria-label="בטל (Ctrl+Z)"
+              title="בטל (Ctrl+Z)"
             >
               <UndoIcon />
             </button>
@@ -197,8 +315,8 @@ export default function Layout({ children }: LayoutProps) {
               }}
               onClick={handleRedo}
               disabled={isRedoDisabled}
-              aria-label="Redo (Ctrl+Y)"
-              title="Redo (Ctrl+Y)"
+              aria-label="בצע שוב (Ctrl+Y)"
+              title="בצע שוב (Ctrl+Y)"
             >
               <RedoIcon />
             </button>
@@ -211,10 +329,10 @@ export default function Layout({ children }: LayoutProps) {
             }}
             onClick={handleSave}
             disabled={isSaveDisabled}
-            aria-label="Save (Ctrl+S)"
-            title="Save (Ctrl+S)"
+            aria-label="שמור (Ctrl+S)"
+            title="שמור (Ctrl+S)"
           >
-            {isSaving ? 'Saving...' : 'Save'}
+            {isSaving ? 'שומר...' : 'שמור'}
           </button>
 
           <ThemeToggle />

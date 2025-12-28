@@ -8,12 +8,8 @@
   },
   "ui_state": {
     "project_order": [
-      "proj_2",
       "proj_1",
-      "proj_1766896687033_btwxjobae",
-      "proj_1766896900379_7rdnwor00",
-      "proj_1766897777004_ypayg9bx1",
-      "proj_1766897779209_idy8iela5"
+      "proj_2"
     ],
     "locked_projects": {},
     "undo": {
@@ -40,10 +36,7 @@
           "id": "task_1",
           "title": "Planning Phase",
           "details": "Initial planning and requirements gathering for the project.",
-          "status": {
-            "type": "done",
-            "waiting_for": null
-          },
+          "status": { "type": "done", "waiting_for": null },
           "priority": 1,
           "tags": [],
           "color": "auto",
@@ -52,20 +45,14 @@
             "start_iso": "2025-12-01T09:00:00+02:00",
             "end_iso": "2025-12-07T18:00:00+02:00"
           },
-          "people": [
-            "David",
-            "Sarah"
-          ],
+          "people": ["David", "Sarah"],
           "notes": "Completed ahead of schedule.",
           "subtasks": [
             {
               "id": "subtask_1_1",
               "title": "Requirements Document",
               "details": "Write the requirements document",
-              "status": {
-                "type": "done",
-                "waiting_for": null
-              },
+              "status": { "type": "done", "waiting_for": null },
               "priority": 1,
               "tags": [],
               "color": "auto",
@@ -74,9 +61,7 @@
                 "start_iso": "2025-12-01T09:00:00+02:00",
                 "end_iso": "2025-12-03T18:00:00+02:00"
               },
-              "people": [
-                "David"
-              ],
+              "people": ["David"],
               "notes": "",
               "subtasks": []
             },
@@ -84,10 +69,7 @@
               "id": "subtask_1_2",
               "title": "Stakeholder Review",
               "details": "Present to stakeholders",
-              "status": {
-                "type": "done",
-                "waiting_for": null
-              },
+              "status": { "type": "done", "waiting_for": null },
               "priority": 1,
               "tags": [],
               "color": "auto",
@@ -95,10 +77,7 @@
                 "mode": "point",
                 "point_iso": "2025-12-05T14:00:00+02:00"
               },
-              "people": [
-                "Sarah",
-                "John"
-              ],
+              "people": ["Sarah", "John"],
               "notes": "",
               "subtasks": []
             }
@@ -108,10 +87,7 @@
           "id": "task_2",
           "title": "Design",
           "details": "UI/UX Design phase",
-          "status": {
-            "type": "in_progress",
-            "waiting_for": null
-          },
+          "status": { "type": "in_progress", "waiting_for": null },
           "priority": 2,
           "tags": [],
           "color": "auto",
@@ -120,20 +96,14 @@
             "start_iso": "2025-12-05T09:00:00+02:00",
             "end_iso": "2025-12-15T18:00:00+02:00"
           },
-          "people": [
-            "Mike",
-            "Lisa"
-          ],
+          "people": ["Mike", "Lisa"],
           "notes": "Working on high-fidelity mockups",
           "subtasks": [
             {
               "id": "subtask_2_1",
               "title": "Wireframes",
               "details": "Create wireframes for all screens",
-              "status": {
-                "type": "done",
-                "waiting_for": null
-              },
+              "status": { "type": "done", "waiting_for": null },
               "priority": 1,
               "tags": [],
               "color": "auto",
@@ -142,9 +112,7 @@
                 "start_iso": "2025-12-05T09:00:00+02:00",
                 "end_iso": "2025-12-08T18:00:00+02:00"
               },
-              "people": [
-                "Lisa"
-              ],
+              "people": ["Lisa"],
               "notes": "",
               "subtasks": []
             },
@@ -152,10 +120,7 @@
               "id": "subtask_2_2",
               "title": "Hi-Fi Mockups",
               "details": "Create high-fidelity mockups",
-              "status": {
-                "type": "in_progress",
-                "waiting_for": null
-              },
+              "status": { "type": "in_progress", "waiting_for": null },
               "priority": 1,
               "tags": [],
               "color": "auto",
@@ -164,10 +129,7 @@
                 "start_iso": "2025-12-09T09:00:00+02:00",
                 "end_iso": "2025-12-12T18:00:00+02:00"
               },
-              "people": [
-                "Lisa",
-                "Mike"
-              ],
+              "people": ["Lisa", "Mike"],
               "notes": "",
               "subtasks": []
             },
@@ -175,10 +137,7 @@
               "id": "subtask_2_3",
               "title": "Design Review",
               "details": "Review with team",
-              "status": {
-                "type": "waiting_for",
-                "waiting_for": "Product Manager"
-              },
+              "status": { "type": "waiting_for", "waiting_for": "Product Manager" },
               "priority": 1,
               "tags": [],
               "color": "auto",
@@ -186,9 +145,7 @@
                 "mode": "point",
                 "point_iso": "2025-12-14T10:00:00+02:00"
               },
-              "people": [
-                "Mike"
-              ],
+              "people": ["Mike"],
               "notes": "Waiting for PM availability",
               "subtasks": []
             }
@@ -197,11 +154,8 @@
         {
           "id": "task_3",
           "title": "Development",
-          "details": "Core development phasesdfsdfsdf",
-          "status": {
-            "type": "not_started",
-            "waiting_for": null
-          },
+          "details": "Core development phase",
+          "status": { "type": "not_started", "waiting_for": null },
           "priority": 1,
           "tags": [],
           "color": "auto",
@@ -210,21 +164,14 @@
             "start_iso": "2025-12-15T09:00:00+02:00",
             "end_iso": "2026-01-10T18:00:00+02:00"
           },
-          "people": [
-            "Alex",
-            "Ben",
-            "Chrissdfsdf"
-          ],
+          "people": ["Alex", "Ben", "Chris"],
           "notes": "",
           "subtasks": [
             {
               "id": "subtask_3_1",
               "title": "Backend API",
               "details": "Develop all backend endpoints",
-              "status": {
-                "type": "not_started",
-                "waiting_for": null
-              },
+              "status": { "type": "not_started", "waiting_for": null },
               "priority": 1,
               "tags": [],
               "color": "auto",
@@ -233,9 +180,7 @@
                 "start_iso": "2025-12-15T09:00:00+02:00",
                 "end_iso": "2025-12-28T18:00:00+02:00"
               },
-              "people": [
-                "Alex"
-              ],
+              "people": ["Alex"],
               "notes": "",
               "subtasks": []
             },
@@ -243,10 +188,7 @@
               "id": "subtask_3_2",
               "title": "Frontend Implementation",
               "details": "Implement all UI components",
-              "status": {
-                "type": "not_started",
-                "waiting_for": null
-              },
+              "status": { "type": "not_started", "waiting_for": null },
               "priority": 1,
               "tags": [],
               "color": "auto",
@@ -255,10 +197,7 @@
                 "start_iso": "2025-12-20T09:00:00+02:00",
                 "end_iso": "2026-01-05T18:00:00+02:00"
               },
-              "people": [
-                "Ben",
-                "Chris"
-              ],
+              "people": ["Ben", "Chris"],
               "notes": "",
               "subtasks": []
             }
@@ -268,10 +207,7 @@
           "id": "task_4",
           "title": "Code Review",
           "details": "Code review meeting",
-          "status": {
-            "type": "not_started",
-            "waiting_for": null
-          },
+          "status": { "type": "not_started", "waiting_for": null },
           "priority": 3,
           "tags": [],
           "color": "auto",
@@ -286,11 +222,8 @@
         {
           "id": "task_5",
           "title": "Testing",
-          "details": "QA Testing phasesגf",
-          "status": {
-            "type": "not_started",
-            "waiting_for": null
-          },
+          "details": "QA Testing phase",
+          "status": { "type": "not_started", "waiting_for": null },
           "priority": 2,
           "tags": [],
           "color": "auto",
@@ -299,9 +232,7 @@
             "start_iso": "2026-01-05T09:00:00+02:00",
             "end_iso": "2026-01-20T18:00:00+02:00"
           },
-          "people": [
-            "QA Teamג"
-          ],
+          "people": ["QA Team"],
           "notes": "",
           "subtasks": []
         },
@@ -309,10 +240,7 @@
           "id": "task_6",
           "title": "Launch",
           "details": "Product launch date",
-          "status": {
-            "type": "waiting_for",
-            "waiting_for": "Marketing Approval"
-          },
+          "status": { "type": "waiting_for", "waiting_for": "Marketing Approval" },
           "priority": 1,
           "tags": [],
           "color": "auto",
@@ -320,9 +248,7 @@
             "mode": "point",
             "point_iso": "2026-01-25T10:00:00+02:00"
           },
-          "people": [
-            "Everyone"
-          ],
+          "people": ["Everyone"],
           "notes": "Final launch milestone",
           "subtasks": []
         }
@@ -330,8 +256,8 @@
     },
     {
       "id": "proj_2",
-      "title": "מאזנים",
-      "short_description": "ניהול מאזנים",
+      "title": "Second Project",
+      "short_description": "Another project for testing",
       "detailed_description": "",
       "notebook": "",
       "tags": [],
@@ -344,169 +270,40 @@
       "milestones": [
         {
           "id": "task_a",
-          "title": "האזנה לתמלול וסיכום משימות",
+          "title": "Research",
           "details": "",
-          "status": {
-            "type": "in_progress",
-            "waiting_for": null
-          },
+          "status": { "type": "in_progress", "waiting_for": null },
           "priority": 1,
           "tags": [],
           "color": "auto",
           "schedule": {
             "mode": "range",
-            "start_iso": "2025-12-28T07:45:00.000Z",
-            "end_iso": "2025-12-28T10:30:00.000Z"
+            "start_iso": "2025-12-20T09:00:00+02:00",
+            "end_iso": "2026-01-05T18:00:00+02:00"
           },
-          "people": [
-            "Research Team"
-          ],
+          "people": ["Research Team"],
           "notes": "",
           "subtasks": []
         },
         {
           "id": "task_b",
-          "title": "יישום",
-          "details": "ד",
-          "status": {
-            "type": "not_started",
-            "waiting_for": null
-          },
+          "title": "Implementation",
+          "details": "",
+          "status": { "type": "not_started", "waiting_for": null },
           "priority": 1,
           "tags": [],
           "color": "auto",
           "schedule": {
             "mode": "range",
-            "start_iso": "2026-01-13T01:00:00.000Z",
-            "end_iso": "2026-02-19T22:00:00.000Z"
+            "start_iso": "2026-01-10T09:00:00+02:00",
+            "end_iso": "2026-02-15T18:00:00+02:00"
           },
           "people": [],
-          "notes": "",
-          "subtasks": [
-            {
-              "id": "task_1766897846320_v4bf2d7r1",
-              "title": "תת משימה",
-              "details": "",
-              "status": {
-                "type": "done",
-                "waiting_for": null
-              },
-              "priority": 1,
-              "tags": [],
-              "color": "auto",
-              "schedule": null,
-              "people": [],
-              "notes": "",
-              "subtasks": []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "proj_1766896687033_btwxjobae",
-      "title": "קגקג",
-      "short_description": "קגקגקג",
-      "detailed_description": "",
-      "notebook": "",
-      "tags": [],
-      "color": "auto",
-      "time_range": {
-        "start_iso": "2025-12-28T04:38:07.035Z",
-        "end_iso": "2026-01-28T04:38:07.035Z",
-        "is_user_defined": false
-      },
-      "milestones": []
-    },
-    {
-      "id": "proj_1766896900379_7rdnwor00",
-      "title": "",
-      "short_description": "",
-      "detailed_description": "",
-      "notebook": "",
-      "tags": [],
-      "color": "auto",
-      "time_range": {
-        "start_iso": "2025-12-28T04:41:40.379Z",
-        "end_iso": "2026-01-28T04:41:40.379Z",
-        "is_user_defined": false
-      },
-      "milestones": [
-        {
-          "id": "task_1766897789051_tclrcgtza",
-          "title": "dsfsdfsdf",
-          "details": "",
-          "status": {
-            "type": "not_started",
-            "waiting_for": null
-          },
-          "priority": 1,
-          "tags": [],
-          "color": "auto",
-          "schedule": null,
-          "people": [
-            "Hוסי"
-          ],
           "notes": "",
           "subtasks": []
         }
       ]
-    },
-    {
-      "id": "proj_1766897777004_ypayg9bx1",
-      "title": "",
-      "short_description": "",
-      "detailed_description": "",
-      "notebook": "",
-      "tags": [],
-      "color": "auto",
-      "time_range": {
-        "start_iso": "2025-12-28T04:56:17.004Z",
-        "end_iso": "2026-01-28T04:56:17.004Z",
-        "is_user_defined": false
-      },
-      "milestones": []
-    },
-    {
-      "id": "proj_1766897779209_idy8iela5",
-      "title": "",
-      "short_description": "",
-      "detailed_description": "",
-      "notebook": "",
-      "tags": [],
-      "color": "auto",
-      "time_range": {
-        "start_iso": "2025-12-28T04:56:19.209Z",
-        "end_iso": "2026-01-28T04:56:19.209Z",
-        "is_user_defined": false
-      },
-      "milestones": []
     }
   ],
-  "backups": [
-    {
-      "id": "bkp_20251228_064307",
-      "created_at_iso": "2025-12-28T06:43:07.072243",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_064307.json"
-    },
-    {
-      "id": "bkp_20251228_065740",
-      "created_at_iso": "2025-12-28T06:57:40.843648",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_065740.json"
-    },
-    {
-      "id": "bkp_20251228_072042",
-      "created_at_iso": "2025-12-28T07:20:42.520458",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_072042.json"
-    },
-    {
-      "id": "bkp_20251228_073418",
-      "created_at_iso": "2025-12-28T07:34:18.637851",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_073418.json"
-    }
-  ]
+  "backups": []
 }

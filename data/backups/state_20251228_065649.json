@@ -8,12 +8,10 @@
   },
   "ui_state": {
     "project_order": [
-      "proj_2",
       "proj_1",
+      "proj_2",
       "proj_1766896687033_btwxjobae",
-      "proj_1766896900379_7rdnwor00",
-      "proj_1766897777004_ypayg9bx1",
-      "proj_1766897779209_idy8iela5"
+      "proj_1766896900379_7rdnwor00"
     ],
     "locked_projects": {},
     "undo": {
@@ -197,7 +195,7 @@
         {
           "id": "task_3",
           "title": "Development",
-          "details": "Core development phasesdfsdfsdf",
+          "details": "Core development phase",
           "status": {
             "type": "not_started",
             "waiting_for": null
@@ -213,7 +211,7 @@
           "people": [
             "Alex",
             "Ben",
-            "Chrissdfsdf"
+            "Chris"
           ],
           "notes": "",
           "subtasks": [
@@ -286,7 +284,7 @@
         {
           "id": "task_5",
           "title": "Testing",
-          "details": "QA Testing phasesגf",
+          "details": "QA Testing phase",
           "status": {
             "type": "not_started",
             "waiting_for": null
@@ -300,7 +298,7 @@
             "end_iso": "2026-01-20T18:00:00+02:00"
           },
           "people": [
-            "QA Teamג"
+            "QA Team"
           ],
           "notes": "",
           "subtasks": []
@@ -344,7 +342,7 @@
       "milestones": [
         {
           "id": "task_a",
-          "title": "האזנה לתמלול וסיכום משימות",
+          "title": "Research",
           "details": "",
           "status": {
             "type": "in_progress",
@@ -355,8 +353,8 @@
           "color": "auto",
           "schedule": {
             "mode": "range",
-            "start_iso": "2025-12-28T07:45:00.000Z",
-            "end_iso": "2025-12-28T10:30:00.000Z"
+            "start_iso": "2025-12-20T09:00:00+02:00",
+            "end_iso": "2026-01-05T18:00:00+02:00"
           },
           "people": [
             "Research Team"
@@ -366,7 +364,7 @@
         },
         {
           "id": "task_b",
-          "title": "יישום",
+          "title": "Implementation",
           "details": "ד",
           "status": {
             "type": "not_started",
@@ -382,24 +380,7 @@
           },
           "people": [],
           "notes": "",
-          "subtasks": [
-            {
-              "id": "task_1766897846320_v4bf2d7r1",
-              "title": "תת משימה",
-              "details": "",
-              "status": {
-                "type": "done",
-                "waiting_for": null
-              },
-              "priority": 1,
-              "tags": [],
-              "color": "auto",
-              "schedule": null,
-              "people": [],
-              "notes": "",
-              "subtasks": []
-            }
-          ]
+          "subtasks": []
         }
       ]
     },
@@ -431,55 +412,6 @@
         "end_iso": "2026-01-28T04:41:40.379Z",
         "is_user_defined": false
       },
-      "milestones": [
-        {
-          "id": "task_1766897789051_tclrcgtza",
-          "title": "dsfsdfsdf",
-          "details": "",
-          "status": {
-            "type": "not_started",
-            "waiting_for": null
-          },
-          "priority": 1,
-          "tags": [],
-          "color": "auto",
-          "schedule": null,
-          "people": [
-            "Hוסי"
-          ],
-          "notes": "",
-          "subtasks": []
-        }
-      ]
-    },
-    {
-      "id": "proj_1766897777004_ypayg9bx1",
-      "title": "",
-      "short_description": "",
-      "detailed_description": "",
-      "notebook": "",
-      "tags": [],
-      "color": "auto",
-      "time_range": {
-        "start_iso": "2025-12-28T04:56:17.004Z",
-        "end_iso": "2026-01-28T04:56:17.004Z",
-        "is_user_defined": false
-      },
-      "milestones": []
-    },
-    {
-      "id": "proj_1766897779209_idy8iela5",
-      "title": "",
-      "short_description": "",
-      "detailed_description": "",
-      "notebook": "",
-      "tags": [],
-      "color": "auto",
-      "time_range": {
-        "start_iso": "2025-12-28T04:56:19.209Z",
-        "end_iso": "2026-01-28T04:56:19.209Z",
-        "is_user_defined": false
-      },
       "milestones": []
     }
   ],
@@ -489,24 +421,6 @@
       "created_at_iso": "2025-12-28T06:43:07.072243",
       "reason": "manual_save",
       "file_path": "data\\backups\\state_20251228_064307.json"
-    },
-    {
-      "id": "bkp_20251228_065740",
-      "created_at_iso": "2025-12-28T06:57:40.843648",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_065740.json"
-    },
-    {
-      "id": "bkp_20251228_072042",
-      "created_at_iso": "2025-12-28T07:20:42.520458",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_072042.json"
-    },
-    {
-      "id": "bkp_20251228_073418",
-      "created_at_iso": "2025-12-28T07:34:18.637851",
-      "reason": "manual_save",
-      "file_path": "data\\backups\\state_20251228_073418.json"
     }
   ]
 }

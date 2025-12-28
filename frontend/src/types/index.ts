@@ -9,6 +9,17 @@ export interface Status {
 // Schedule types
 export type ScheduleMode = 'range' | 'point';
 
+// Duration unit for task scheduling UI
+export type DurationUnit = 'minutes' | 'hours' | 'days' | 'weeks' | 'months';
+
+export const DURATION_UNIT_OPTIONS: { value: DurationUnit; label: string }[] = [
+  { value: 'minutes', label: 'דקות' },
+  { value: 'hours', label: 'שעות' },
+  { value: 'days', label: 'ימים' },
+  { value: 'weeks', label: 'שבועות' },
+  { value: 'months', label: 'חודשים' },
+];
+
 export interface ScheduleRange {
   mode: 'range';
   start_iso: string;
@@ -165,3 +176,47 @@ export const createDefaultAppData = (): AppData => ({
   projects: [],
   backups: [],
 });
+
+// Validation helpers
+export interface ValidationError {
+  field: string;
+  message: string;
+}
+
+export const validateScheduleRange = (start: string, end: string): ValidationError | null => {
+  if (!start || !end) return null;
+
+  try {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    if (endDate < startDate) {
+      return {
+        field: 'schedule',
+        message: 'End date cannot be before start date',
+      };
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+};
+
+export const validateWaitingFor = (status: Status): ValidationError | null => {
+  if (status.type === 'waiting_for' && (!status.waiting_for || !status.waiting_for.trim())) {
+    return {
+      field: 'status',
+      message: 'Name is required when status is "Waiting For"',
+    };
+  }
+  return null;
+};
+
+export const STATUS_OPTIONS: { value: StatusType; label: string }[] = [
+  { value: 'not_started', label: 'לא התחיל' },
+  { value: 'in_progress', label: 'בתהליך' },
+  { value: 'stuck', label: 'תקוע' },
+  { value: 'done', label: 'הושלם' },
+  { value: 'waiting_for', label: 'ממתין ל' },
+];

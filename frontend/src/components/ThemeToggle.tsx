@@ -67,8 +67,8 @@ export default function ThemeToggle() {
     <button
       style={styles.button}
       onClick={toggleTheme}
-      aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={resolvedTheme === 'dark' ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
+      title={resolvedTheme === 'dark' ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
     >
       {resolvedTheme === 'dark' ? <SunIcon /> : <MoonIcon />}
     </button>

@@ -214,3 +214,101 @@ class HealthResponse(BaseModel):
     """Health check response."""
     status: str = "ok"
     timestamp: str
+
+
+# --- CRUD Request/Response Models ---
+
+class ProjectCreate(BaseModel):
+    """Request to create a new project."""
+    title: str = ""
+    short_description: str = ""
+    detailed_description: str = ""
+    notebook: str = ""
+    tags: list[str] = Field(default_factory=list)
+    color: str = "auto"
+    time_range: Optional[TimeRange] = None
+
+
+class ProjectUpdate(BaseModel):
+    """Request to update a project (partial update)."""
+    title: Optional[str] = None
+    short_description: Optional[str] = None
+    detailed_description: Optional[str] = None
+    notebook: Optional[str] = None
+    tags: Optional[list[str]] = None
+    color: Optional[str] = None
+    time_range: Optional[TimeRange] = None
+
+
+class ProjectResponse(BaseModel):
+    """Response containing a project."""
+    project: Project
+
+
+class ProjectListResponse(BaseModel):
+    """Response containing a list of projects."""
+    projects: list[Project]
+
+
+class ProjectOrderUpdate(BaseModel):
+    """Request to update project order."""
+    project_order: list[str]
+
+
+class TaskCreate(BaseModel):
+    """Request to create a new task."""
+    title: str = ""
+    details: str = ""
+    status: Optional[TaskStatus] = None
+    priority: int = 1
+    tags: list[str] = Field(default_factory=list)
+    color: str = "auto"
+    schedule: Optional[TaskSchedule] = None
+    people: list[str] = Field(default_factory=list)
+    notes: str = ""
+
+
+class TaskUpdate(BaseModel):
+    """Request to update a task (partial update)."""
+    title: Optional[str] = None
+    details: Optional[str] = None
+    status: Optional[TaskStatus] = None
+    priority: Optional[int] = None
+    tags: Optional[list[str]] = None
+    color: Optional[str] = None
+    schedule: Optional[TaskSchedule] = None
+    people: Optional[list[str]] = None
+    notes: Optional[str] = None
+
+
+class TaskResponse(BaseModel):
+    """Response containing a task."""
+    task: Task
+
+
+class TaskNodeRequest(BaseModel):
+    """Request for task-node operations (nested path-based updates)."""
+    path: list[str]  # Path to the task (e.g., ["task_1", "task_1_1"])
+
+
+class TaskNodeCreateRequest(BaseModel):
+    """Request to create a task at a nested path."""
+    parent_path: list[str] = Field(default_factory=list)  # Empty = top level
+    node: TaskCreate
+
+
+class TaskNodeUpdateRequest(BaseModel):
+    """Request to update a task at a nested path."""
+    path: list[str]
+    patch: TaskUpdate
+
+
+class TaskNodeDeleteRequest(BaseModel):
+    """Request to delete a task at a nested path."""
+    path: list[str]
+
+
+class MessageResponse(BaseModel):
+    """Generic message response."""
+    message: str
+    id: Optional[str] = None
