@@ -181,15 +181,26 @@ Sched_v5/
 
 ## How to Run
 
-### Backend
+### Quick Start (Both Services)
 
-**First time setup (Linux/Mac):**
+**First time setup:**
 ```bash
 cd Sched_v5
 ./setup-backend.sh
+cd frontend && npm install && cd ..
 ```
 
-**Start server (Linux/Mac):**
+**Run both backend and frontend together:**
+```bash
+cd Sched_v5
+./start-all.sh
+```
+
+This starts both servers and shows combined logs. Press Ctrl+C to stop both.
+
+### Individual Services
+
+**Backend only:**
 ```bash
 cd Sched_v5
 ./start-backend.sh
