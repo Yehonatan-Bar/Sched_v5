@@ -180,13 +180,52 @@ Sched_v5/
 - Theme preference stored in localStorage
 
 ## How to Run
-```bash
-# Backend
-cd Sched_v5
-venv/Scripts/pip install -r backend/requirements.txt
-venv/Scripts/uvicorn backend.app.main:app --reload --port 8000
 
-# Frontend
+### Quick Start (Both Services)
+
+**First time setup:**
+```bash
+cd Sched_v5
+./setup-backend.sh
+cd frontend && npm install && cd ..
+```
+
+**Run both backend and frontend together:**
+```bash
+cd Sched_v5
+./start-all.sh
+```
+
+This starts both servers and shows combined logs. Press Ctrl+C to stop both.
+
+### Individual Services
+
+**Backend only:**
+```bash
+cd Sched_v5
+./start-backend.sh
+```
+
+**Manual (Linux/Mac):**
+```bash
+cd Sched_v5
+python3 -m venv venv
+venv/bin/pip install -r backend/requirements.txt
+venv/bin/uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+**Manual (Windows):**
+```bash
+cd Sched_v5
+python -m venv venv
+venv\Scripts\pip install -r backend/requirements.txt
+venv\Scripts\uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+**IMPORTANT:** Always use the full module path `backend.app.main:app` when starting uvicorn.
+
+### Frontend
+```bash
 cd frontend
 npm install
 npm run dev      # Development server on http://localhost:5173
