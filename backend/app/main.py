@@ -52,6 +52,16 @@ app.add_middleware(
 
 # --- Health Check ---
 
+@app.get("/", tags=["System"])
+async def root():
+    """Root endpoint - redirects to API docs."""
+    return {
+        "message": "Sched v5 API is running",
+        "docs": "/docs",
+        "health": "/api/health",
+        "note": "This is the backend API. For the web app, access the frontend (port 5173)."
+    }
+
 @app.get("/api/health", response_model=HealthResponse, tags=["System"])
 async def health_check():
     """Check API availability."""
